@@ -23,7 +23,6 @@ Stack::Stack(StackContainer container)
 Stack::Stack(const ValueType* valueArray, const size_t arraySize, StackContainer container)
     : _containerType(container)
 {
-    // принцип тот же, что и в прошлом конструкторе
     switch (container)
     {
     case StackContainer::List: 
@@ -73,19 +72,21 @@ Stack& Stack::operator=(const Stack& copyStack)
     _containerType = tmp._containerType;
     return *this;
 }
+
 Stack::Stack(Stack&& moveStack) noexcept
 {
     _pimpl = moveStack._pimpl;
     moveStack._pimpl = nullptr;
     _containerType = moveStack._containerType;
 }
+
 Stack& Stack::operator=(Stack&& moveStack) noexcept
 {
     if (&moveStack == this) 
     {
         return *this;
     }
-	delete[] _pimpl;
+    delete[] _pimpl;
     _pimpl = moveStack._pimpl;
     moveStack._pimpl = nullptr;
     _containerType = moveStack._containerType;
@@ -94,12 +95,11 @@ Stack& Stack::operator=(Stack&& moveStack) noexcept
 
 Stack::~Stack()
 {
-    delete _pimpl;        // композиция!
+    delete _pimpl;    
 }
 
 void Stack::push(const ValueType& value)
 {
-    // можно, т.к. push определен в интерфейсе
     _pimpl->push(value);
 }
 
